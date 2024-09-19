@@ -1,7 +1,5 @@
 const mongoose = require('mongoose')
 const { createHmac , randomBytes} = require('crypto');
-const { type } = require('os');
-const { error } = require('console');
 
 const userSchema = new mongoose.Schema({
     name : {
@@ -20,6 +18,11 @@ const userSchema = new mongoose.Schema({
         type : String,
         required : true
     },
+    profilephoto : {
+        type : String,
+        required : true,
+    },
+
     role : {
         type : String ,
         enum : ['USER' , 'ADMIN'],

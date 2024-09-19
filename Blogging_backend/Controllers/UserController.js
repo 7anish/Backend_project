@@ -5,17 +5,20 @@ const handleCreateUser = async (req, res) => {
         //Checking each and every filed whether it is empty or not
         if (!req.body  || !req.body.name || !req.body.password || !req.body.email) return res.status(400).json({ error: "Body Not found" });
 
+        console.log(req.file.path);
         // Creating user
-        await user.create({
+        const result = await user.create({
             name: req.body.name,
             email: req.body.email,
             salt: req.body.salt,
             password: req.body.password,
+            profilephoto : req.file.filename
         })
 
-        return res.status(201).json({ message: "Account created succesfully" })
+        return res.status(201).json({ message: "Account created succesfully" , result : result })
 
     }catch(e){
+        console.log(e)
         return res.status(400).json({error : "Some thing Went wrong while Singin"});
     }
 }

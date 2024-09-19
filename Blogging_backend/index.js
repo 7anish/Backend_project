@@ -1,6 +1,7 @@
 const express = require('express')
 const userSchema = require('./Routers/UserRouter')
 const {handleconnection} = require('./Config/ConnectionDB')
+const path = require('path')
 
 //Config Env Files
 require('dotenv').config()
@@ -14,7 +15,9 @@ handleconnection(URL); // Connection With Database
 const app = express()
 
 //middleware
+app.use(express.static(path.resolve('./public')))
 app.use(express.json())
+app.use(express.urlencoded({extended : false}));
 
 //router
 app.use('/api/v1/user' , userSchema )
