@@ -13,7 +13,7 @@ const generateToken = (email, password , id)=>{
 
 // verifying the jwt token
 const verifyToken = (token)=>{
-    return jwt.sign(token , KEY)
+    return jwt.verify(token , KEY)
 }
 
 module.exports = {

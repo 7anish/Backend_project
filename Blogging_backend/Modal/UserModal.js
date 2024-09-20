@@ -20,6 +20,7 @@ const userSchema = new mongoose.Schema({
     },
     profilephoto : {
         type : String,
+        default : 'default.webp',
         required : true,
     },
 

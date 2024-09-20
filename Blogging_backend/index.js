@@ -1,7 +1,9 @@
 const express = require('express')
-const userSchema = require('./Routers/UserRouter')
+const userRouter = require('./Routers/UserRouter')
 const {handleconnection} = require('./Config/ConnectionDB')
-const path = require('path')
+const path = require('path');
+const blogRouter = require('./Routers/BlogRouter')
+const checkauthentication = require('./Middleware/auth')
 
 //Config Env Files
 require('dotenv').config()
@@ -15,12 +17,13 @@ handleconnection(URL); // Connection With Database
 const app = express()
 
 //middleware
-app.use(express.static(path.resolve('./public')))
+app.use(express.static(path.resolve('./public'))) // these middleware is used to serve the publce floder staticily
 app.use(express.json())
 app.use(express.urlencoded({extended : false}));
 
 //router
-app.use('/api/v1/user' , userSchema )
+app.use('/api/v1/user' , userRouter )
+app.use('/api/v1/blog' , checkauthentication ,blogRouter )
 
 app.listen(PORT , ()=>{
     console.log(`Server Started At Port - ${PORT}`)

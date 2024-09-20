@@ -1,5 +1,7 @@
 const user = require('../Modal/UserModal');
 const {generateToken} = require('../Config/Jwtgenererator')
+
+
 const handleCreateUser = async (req, res) => {
     try {
         //Checking each and every filed whether it is empty or not
@@ -25,6 +27,7 @@ const handleCreateUser = async (req, res) => {
 
 
 const handleLoginUser =async (req,res)=>{
+    console.log(req.body)
     try {
         //Checking each and every filed whether it is empty or not
         if (!req.body || !req.body.password || !req.body.email) return res.status(400).json({ error: "Body Not found" });
@@ -41,7 +44,12 @@ const handleLoginUser =async (req,res)=>{
     }
 }
 
+const handleUpdateProfile = (req,res)=>{
+    // code to update profile or profile photo
+}
+
 module.exports = {
     handleCreateUser,
-    handleLoginUser
+    handleLoginUser,
+    handleUpdateProfile
 }
