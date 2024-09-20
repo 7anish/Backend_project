@@ -3,7 +3,6 @@ const userRouter = require('./Routers/UserRouter')
 const {handleconnection} = require('./Config/ConnectionDB')
 const path = require('path');
 const blogRouter = require('./Routers/BlogRouter')
-const checkauthentication = require('./Middleware/auth')
 
 //Config Env Files
 require('dotenv').config()
@@ -23,7 +22,7 @@ app.use(express.urlencoded({extended : false}));
 
 //router
 app.use('/api/v1/user' , userRouter )
-app.use('/api/v1/blog' , checkauthentication ,blogRouter )
+app.use('/api/v1/blog' ,blogRouter )
 
 app.listen(PORT , ()=>{
     console.log(`Server Started At Port - ${PORT}`)

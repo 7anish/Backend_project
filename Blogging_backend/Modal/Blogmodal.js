@@ -5,13 +5,16 @@ const Blogschema =new  mongoose.Schema({
         type : String,
         required : true,
     },
-    body : {
+    titleContent : {
+        type : String,
+        required : true,
+    },
+    fullContent : {
         type : String,
         required : true,
     },
     coverPhoto : {
         type : String,
-        required : true,
         default : "default.jpeg"
     },
     createdBy : {

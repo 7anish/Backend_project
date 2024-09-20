@@ -6,18 +6,17 @@ const handleCreateUser = async (req, res) => {
     try {
         //Checking each and every filed whether it is empty or not
         if (!req.body  || !req.body.name || !req.body.password || !req.body.email) return res.status(400).json({ error: "Body Not found" });
-
-        console.log(req.file.path);
         // Creating user
+        const filename = req.file ? req.file.filename : 'default.webp'
         const result = await user.create({
             name: req.body.name,
             email: req.body.email,
             salt: req.body.salt,
             password: req.body.password,
-            profilephoto : req.file.filename
+            profilephoto : filename
         })
 
-        return res.status(201).json({ message: "Account created succesfully" , result : result })
+        return res.status(201).json({ message: "Account created succesfully"})
 
     }catch(e){
         console.log(e)
