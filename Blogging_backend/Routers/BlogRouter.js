@@ -6,7 +6,7 @@ const checkauthentication = require('../Middleware/auth')
 const route = express.Router();
 
 route.post('/createblog' , checkauthentication ,uploatBlogPhoto.single('blogPhoto'),handleCreateBlog );
-route.patch('/updateblog/:id' , checkauthentication,handleUpdateBlog);
+route.patch('/updateblog/:id' , checkauthentication, uploatBlogPhoto.single('blogPhoto'),handleUpdateBlog);
 route.delete('/deleteblog/:id' , checkauthentication,handleDeleteBlog);
 
 // get All the blog created by user authentication needed

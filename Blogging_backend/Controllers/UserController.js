@@ -20,13 +20,12 @@ const handleCreateUser = async (req, res) => {
 
     }catch(e){
         console.log(e)
-        return res.status(400).json({error : "Some thing Went wrong while Singin"});
+        return res.status(400).json({error : "Some thing Went wrong while Singin" });
     }
 }
 
 
 const handleLoginUser =async (req,res)=>{
-    console.log(req.body)
     try {
         //Checking each and every filed whether it is empty or not
         if (!req.body || !req.body.password || !req.body.email) return res.status(400).json({ error: "Body Not found" });
@@ -43,8 +42,26 @@ const handleLoginUser =async (req,res)=>{
     }
 }
 
-const handleUpdateProfile = (req,res)=>{
-    // code to update profile or profile photo
+
+const handleUpdateProfile = async (req,res)=>{
+    try {
+        const filename = req.file ? req.file.filename : 'default.webp'
+        const updatedValues = {
+            ...req.body,
+            profilephoto: filename,
+
+        }
+
+        console.log(updatedValues)
+        if(req.params.id !== req.user.id) return res.status(403).json({error : "Unauthorised to do so"})
+        const result = await user.findByIdAndUpdate(req.user.id , { $set : updatedValues})
+
+        if (!result) return res.status(404).json({ messgae: "user not found" });
+        return res.status(200).json({ message: "User updated sucessfully" })
+    }catch(e){
+        console.log(e);
+        return res.status(500).json({ message: "Something went wrong" })
+    }
 }
 
 module.exports = {
