@@ -4,7 +4,6 @@ const checkauthentication = (req, res, next) => {
     try {
         const token = req.get('Authorization').split("Bearer ")[1]
         const user = verifyToken(token)
-        console.log(user)
         req.user = user;
         next();
     }catch(e){

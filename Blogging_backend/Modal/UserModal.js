@@ -48,7 +48,6 @@ userSchema.pre('save' , function (next){
 // Function is matching the password when the user is logging in and verify that passwod is incorrect or not
 userSchema.static("matchpassword" , async function  (email , password){
     const result = await this.findOne({ email : email })
-    console.log(result);
 
     if(!result)  throw "Incorrect Username/Email"
 

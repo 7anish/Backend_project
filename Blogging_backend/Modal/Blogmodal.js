@@ -22,6 +22,10 @@ const Blogschema =new  mongoose.Schema({
         ref : 'user',
         required : true
     },
+    authorName: {
+        type : String,
+        required : true
+    }
 } , {timestamps : true});
 
 const blog = mongoose.model('blog' , Blogschema)

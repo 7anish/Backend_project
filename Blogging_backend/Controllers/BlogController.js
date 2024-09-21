@@ -10,7 +10,8 @@ const handleCreateBlog = async (req, res) => {
             titleContent: req.body.titlecontent,
             fullContent: req.body.fullcontent,
             coverPhoto: filename,
-            createdBy: req.user.id
+            createdBy: req.user.id,
+            authorName: req.user.name
         })
 
         return res.status(201).json({ Message: "blog created succesfully" })
@@ -30,33 +31,49 @@ const handleUpdateBlog = async (req, res) => {
 
         }
         const result = await blog.findOneAndUpdate({ _id: req.params.id, createdBy: req.user.id }, { $set: updatedValues })
-
         if (!result) return res.status(404).json({ messgae: "Unable to find blog" });
         return res.status(200).json({ message: "Blog updated sucessfully" })
-    }catch(e){
+    } catch (e) {
         console.log(e);
         return res.status(500).json({ message: "Something went wrong" })
     }
 }
 
 const handleDeleteBlog = async (req, res) => {
-    const id = req.params.id
-    const data = await blog.findOneAndDelete({ _id: req.params.id }, { createdBy: req.user.id })
-    if (!data) return res.status(404).json({ Error: 'No blog available With this Id' });
-    return res.status(200).json({ Message: "Blog Deleted Sucess Fully" });
+    try {
+        const id = req.params.id
+        const data = await blog.findOneAndDelete({ _id: req.params.id, createdBy: req.user.id })
+        if (!data) return res.status(404).json({ Error: 'No blog available With this Id' });
+        return res.status(200).json({ Message: "Blog Deleted Sucess Fully" });
+    }
+    catch (e) {
+        return res.status(404).json({ Error: 'No Such Type Of Blog' });
+    }
 }
 
 const handleReadAllBlogs = async (req, res) => {
-    const data = await blog.find({})
-    if (!data) return res.status(404).json({ Error: 'No blog available' });
-    return res.status(200).json({ data: data });
+    try {
+        const querry = req.query
+        const data = await blog.find({})
+        if (!data) return res.status(404).json({ Error: 'No blog available' });
+        return res.status(200).json({ data: data });
+    } catch (e) {
+        console.log(e);
+        return res.status(500).json({ Error: 'Server Error' });
+    }
 }
 
 const handleReadOneBlogs = async (req, res) => {
-    const id = req.params.id
-    const data = await blog.findById(id)
-    if (!data) return res.status(404).json({ Error: 'Blog Not found' });
-    return res.status(200).json({ data: data });
+    try {
+        const id = req.params.id
+        const data = await blog.findById(id)
+        if (!data) return res.status(404).json({ Error: 'Blog Not found' });
+        return res.status(200).json({ data: data });
+    }
+    catch (e) {
+        console.log(e);
+        return res.status(500).json({ Error: 'No Such Type Of Blog' });
+    }
 }
 
 const handlePersonalBlog = async (req, res) => {
@@ -66,6 +83,7 @@ const handlePersonalBlog = async (req, res) => {
         if (blogs.length === 0) return res.status(404).json({ error: "User Not created Any blog" })
         return res.status(200).json({ blogdata: blogs })
     } catch (e) {
+        console.log(e);
         return res.status(400).json({ error: "somthing went wrong" });
     }
 }
